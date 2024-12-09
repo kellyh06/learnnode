@@ -8,7 +8,7 @@ export default async () => {
   let pages = [];
   characters.forEach(character => {
     let page = new  HtmlWebpackPlugin({
-        template: './src/index.njk',
+        template: './src/character.njk',
         filename:  'character_' + character.id + '.html',
         templateParameters: {
           character
