@@ -1,18 +1,25 @@
 <script setup>
 import { ref } from 'vue';
- 
- 
+import axios from 'axios';
+
+
 let joke = ref('');
- 
-fetch('https://api.chucknorris.io/jokes/random').then(response => {
-    return response.json();
-}).then(data => {
-    console.log(data);
-    joke.value = data.value;
-});
- 
+
+//axios.get('https://api.chucknorris.io/jokes/random').then(res => {
+//    joke.value = responce.data.value;
+//}).catch(err => {
+//    cobsole.log(err);
+//});
+
+try {
+    let responce = await axios.get('https://api.chucknorris.io/jokes/random');
+    joke.value = responce.data.value;
+} catch (err) {
+    console.log(err);
+}
+
 </script>
- 
+
 <template>
     {{ joke }}
 </template>
