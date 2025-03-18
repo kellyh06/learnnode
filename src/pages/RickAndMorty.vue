@@ -1,6 +1,6 @@
 <script setup>
 import axios from 'axios';
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import CharacterCard from '../components/CharacterCard.vue';
 import Pagination from '../components/Pagination.vue';
 
@@ -23,12 +23,12 @@ async function getCharacters() {
             }
         });
         console.log(responce.data);
-        characters.value = responce.data.results;
+        characters.value.push(...responce.data.results);
         info.value = responce.data.info;
     } catch (err) {
         console.log(err);
         characters.value = responce.data.results;
-        characters.value = [];
+        characters.value = 'No results found';
         info.value = null;
     }
 }
@@ -56,6 +56,14 @@ async function search() {
     }, 1000);
 
 }
+
+onMounted(() => {
+    document.addEventListener('scroll', () => {
+        if(window.scrollY + window.innerHeight > document.body.clientHeight - 300) {
+            next();
+        }
+    })
+});
 
 </script>
 <template>
