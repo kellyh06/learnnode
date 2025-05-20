@@ -21,7 +21,7 @@ function sleep(ms){
 }
 
 
-for (let i = 3091; i >= 3081; i--){
+for (let i = 3091; i => 3081; i--){
     let data = cacheGet(i);
     if(!data) {
         console.log('LIVE REQUEST!!!!!');
