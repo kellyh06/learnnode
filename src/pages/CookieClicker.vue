@@ -28,6 +28,38 @@ onUnmounted(() => {
     clearInterval(cpsInterval);
 });
 
+const goldenCookieVisible = ref(false);
+const goldenCookieTimer = ref(null);
+
+function showGoldenCookie() {
+    goldenCookieVisible.value = true;
+
+    setTimeout(() => {
+        goldenCookieVisible.value = false;
+    }, 5000); // Nähtav 5 sekundit
+}
+
+// Näita Golden Cookie't iga 20–40 sekundi tagant
+function startGoldenCookieTimer() {
+    goldenCookieTimer.value = setInterval(() => {
+        if (!goldenCookieVisible.value) {
+            showGoldenCookie();
+        }
+    }, Math.floor(Math.random() * 20000) + 20000); // 20-40 sekundit
+}
+
+function clickGoldenCookie() {
+    cookies.value += 100 * (1 + cps.value); // annab korraliku boosti!
+    goldenCookieVisible.value = false;
+}
+
+startGoldenCookieTimer();
+onUnmounted(() => {
+    clearInterval(cpsInterval);
+    clearInterval(goldenCookieTimer.value);
+});
+
+
 //features
 </script>
 
@@ -48,5 +80,10 @@ onUnmounted(() => {
                 {{ building.name }} 🍪{{ building.price }} #{{ building.count }}
             </button>
         </div>
+
+        <img v-if="goldenCookieVisible" @click="clickGoldenCookie" src="/images/golden-cookie.png" class="is-rounded"
+            style="position: absolute; top: 50%; left: 50%; width: 100px; cursor: pointer; transform: translate(-50%, -50%); z-index: 10;" />
+
+
     </div>
 </template>
